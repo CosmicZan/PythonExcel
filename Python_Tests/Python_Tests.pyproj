@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>32038f03-26d5-4260-95e5-db051ddde55c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Excel.py</StartupFile>
+    <StartupFile>Python_Tests.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
