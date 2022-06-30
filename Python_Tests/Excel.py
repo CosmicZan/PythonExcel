@@ -37,6 +37,7 @@ def TxtExl():
     tag_60F = item.startswith(":60F:")
     tag_61 = item.startswith(":61:")
     tag_86 = item.startswith(":86:")
+    tag_62M = item.startswith(":62M:")
     #"Switch"
     #Caso Tag 20
     if(tag_20):
@@ -70,13 +71,19 @@ def TxtExl():
       tag = item.split(":86:", 1)
       item = tag[1]
     #Caso Tag 62a
+    elif(tag_62M):
+      tag = item
+      index = [5, 6, 12, 15, 30]
+      parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
+      item = parts[0]
 
     worksheet.write(row, column, item)
     column += 1
-    espacio = decimal.Decimal(column)/decimal.Decimal(3)
+    espacio = decimal.Decimal(column)/decimal.Decimal(1)
     if(espacio == count):
-      row += 0
-      column += 1 
+      row += 1
+      column = 0
       count += 1
 
+  print("Excel Created")
   workbook.close()
