@@ -27,7 +27,9 @@ def TxtExl():
   row = 1
   column = 0
   count = 1 
+
   #Iteración en la newList e Inserción a Excel
+
   for item in newList:
     
     #Identifica el tipo de Tag
@@ -38,13 +40,22 @@ def TxtExl():
     tag_61 = item.startswith(":61:")
     tag_86 = item.startswith(":86:")
     tag_62M = item.startswith(":62M:")
+
     #"Switch"
     #Caso Tag 20
     if(tag_20):
       tag = item
       index = [4, 14]
       parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
-      item = parts[0]
+      for item in enumerate(parts):
+        worksheet.write(row, column, item[1])
+        column += 1
+        espacio = decimal.Decimal(column)/decimal.Decimal(1)
+        if(espacio == count):
+          row += 1
+          column = 0
+          count += 1
+          
     #Caso Tag 25
     elif(tag_25):
       tag = item.split(":25:", 1)
@@ -76,14 +87,16 @@ def TxtExl():
       index = [5, 6, 12, 15, 30]
       parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
       item = parts[0]
+    else:
+      item = ""
 
-    worksheet.write(row, column, item)
-    column += 1
-    espacio = decimal.Decimal(column)/decimal.Decimal(1)
-    if(espacio == count):
-      row += 1
-      column = 0
-      count += 1
+    # worksheet.write(row, column, item)
+    # column += 1
+    # espacio = decimal.Decimal(column)/decimal.Decimal(1)
+    # if(espacio == count):
+    #  row += 1
+    #  column = 0
+    #  count += 1
 
   print("Excel Created")
   workbook.close()
