@@ -2,12 +2,15 @@ import xlsxwriter
 import decimal
 
 def TxtExl():
+
+  # Crear un Excel desde 0 con xlsxwriter
+
   #Abre un archivo txt, r = Read
   file = open('src/hsbc.txt', 'r')
   f = file.readlines()
 
   #Creación del Excel
-  workbook = xlsxwriter.Workbook('src/Prueba.xls')
+  workbook = xlsxwriter.Workbook('src/Prueba.xlsx')
   worksheet = workbook.add_worksheet("Hoja1")
 
   #Creación de los Headers
@@ -22,15 +25,12 @@ def TxtExl():
     if line[-1] == '\n':
       newList.append(line)
     else:
-      newList.append(line)
-
-  row = 1
-  column = 0
-  count = 1 
+      newList.append(line)  
 
   #Iteración en la newList e Inserción a Excel
 
   for item in newList:
+    row = 1
     
     #Identifica el tipo de Tag
     tag_20 = item.startswith(":20:")
@@ -44,6 +44,9 @@ def TxtExl():
     #"Switch"
     #Caso Tag 20
     if(tag_20):
+      # row = 1
+      column = 0
+      count = 0
       tag = item
       index = [4, 14]
       parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
@@ -53,13 +56,21 @@ def TxtExl():
         espacio = decimal.Decimal(column)/decimal.Decimal(1)
         if(espacio == count):
           row += 1
-          column = 0
+          column += 1
           count += 1
-          
     #Caso Tag 25
     elif(tag_25):
+      row += 1
+      column = 0
+      count = 0
       tag = item.split(":25:", 1)
       item = tag[1]
+      worksheet.write(row, column, item)
+      column += 1
+      espacio = decimal.Decimal(column)/decimal.Decimal(1)
+      if(espacio == count):
+        column = 0
+        count += 1
     #Caso Tag 28C
     elif(tag_28C):
       tag = item.split(":28C:", 1)
