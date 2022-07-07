@@ -27,21 +27,23 @@ def TxtExl():
 
     # Variables
     column = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    row = 2
     #Identifica el tipo de Tag
     #"Switch"
     #Caso Tag 20
     if(item.startswith(":20:")):
-      z = 0
+      row = 1
+      col = 1
       tag = item
       index = [4, 14]
       parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
       # Inserción de cada Split del Item por Celda predefinida
       for id, items in enumerate(parts):
+          # Si la Fila y Columna tienen Valor, se saltará una Fila para insertar Datos
+          if ws.cell(row).value:
+            row+=1
           ws[column[id] + str(row)] = items
           #ws['A' + str(2 + row)] = parts[0]
           #ws['B' + str(2 + row)] = parts[1]
-      row += id
 
     #Caso Tag 25
     elif(item.startswith(":25:")):
@@ -80,4 +82,5 @@ def TxtExl():
       item = ""
 
   print("Excel Created")
+  
   wb.save(file_path)
