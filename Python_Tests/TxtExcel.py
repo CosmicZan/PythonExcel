@@ -33,39 +33,70 @@ def TxtExl():
     if(item.startswith(":20:")):
       row = 1
       col = 1
+      colId = 0
       tag = item
       index = [4, 14]
-      parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
+      parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
       # Inserción de cada Split del Item por Celda predefinida
       for id, items in enumerate(parts):
           while ws.cell(row, col).value:
             row+=1
-          ws[column[id] + str(row)] = items
+          ws[column[colId] + str(row)] = items
+          colId += 1
           col += 1
-
     #Caso Tag 25
     elif(item.startswith(":25:")):
-      row += 1
+      row = 1
+      col = 3
       tag = item.split(":25:", 1)
-      item = tag[1]
-      ws['B' + str(row)] = item
+      for items in enumerate(tag):
+          while ws.cell(row, col).value:
+            row+=1
+          ws["C" + str(row)] = items[1]
+          col += 1
     #Caso Tag 28C
     elif(item.startswith(":28C:")):
+      row = 1
+      col = 4
+      colId = 3
       tag = item.split(":28C:", 1)
       aux = tag[1].split("/")
-      item = aux[0]
+      for id, items in enumerate(aux):
+          while ws.cell(row, col).value:
+            row+=1
+          ws[column[colId] + str(row)] = items
+          colId += 1
+          col += 1
     #Caso Tag 60F
     elif(item.startswith(":60F:")):
+      row = 1
+      col = 6
+      colId = 5
       tag = item
       index = [5, 6, 12, 15, 30]
-      parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
-      item = parts[0]
+      parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
+      for id, items in enumerate(parts):
+         while ws.cell(row, col).value:
+           row+=1
+         ws[column[colId] + str(row)] = items
+         colId += 1
+         col += 1
+
     #Caso Tag 61 // Arreglar el salto de Línea
     elif(item.startswith(":61:")):
+      row = 1
+      col = 10
+      colId = 9
       tag = item
       index = [4, 10, 14, 15, 30, 34, 70]
-      parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
-      item = parts[0]
+      parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
+      for id, items in enumerate(parts):
+         while ws.cell(row, col).value:
+           row+=1
+         ws[column[colId] + str(row)] = items
+         colId += 1
+         col += 1
+
     #Caso Tag 86
     elif(item.startswith(":86:")):
       tag = item.split(":86:", 1)
@@ -74,7 +105,7 @@ def TxtExl():
     elif(item.startswith(":62M:")):
       tag = item
       index = [5, 6, 12, 15, 30]
-      parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
+      parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
       item = parts[0]
     else:
       item = ""
