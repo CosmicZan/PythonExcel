@@ -38,12 +38,10 @@ def TxtExl():
       parts = [tag[i:j] for i,j in zip(index, index[1:]+[None])]
       # Inserción de cada Split del Item por Celda predefinida
       for id, items in enumerate(parts):
-          # Si la Fila y Columna tienen Valor, se saltará una Fila para insertar Datos
-          if ws.cell(row).value:
+          while ws.cell(row, col).value:
             row+=1
           ws[column[id] + str(row)] = items
-          #ws['A' + str(2 + row)] = parts[0]
-          #ws['B' + str(2 + row)] = parts[1]
+          col += 1
 
     #Caso Tag 25
     elif(item.startswith(":25:")):
