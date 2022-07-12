@@ -81,12 +81,11 @@ def TxtExl():
          ws[column[colId] + str(row)] = items
          colId += 1
          col += 1
-
     #Caso Tag 61 // Arreglar el salto de Línea
     elif(item.startswith(":61:")):
       row = 1
-      col = 10
-      colId = 9
+      col = 11
+      colId = 10
       tag = item
       index = [4, 10, 14, 15, 30, 34, 70]
       parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
@@ -96,17 +95,30 @@ def TxtExl():
          ws[column[colId] + str(row)] = items
          colId += 1
          col += 1
-
     #Caso Tag 86
     elif(item.startswith(":86:")):
+      row = 1
+      col = 17
       tag = item.split(":86:", 1)
-      item = tag[1]
-    #Caso Tag 62a
+      for items in enumerate(tag):
+          while ws.cell(row, col).value:
+            row+=1
+          ws["Q" + str(row)] = items[1]
+          col += 1
+    #Caso Tag 62M
     elif(item.startswith(":62M:")):
+      row = 1
+      col = 18
+      colId = 17
       tag = item
       index = [5, 6, 12, 15, 30]
       parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
-      item = parts[0]
+      for id, items in enumerate(parts):
+         while ws.cell(row, col).value:
+           row+=1
+         ws[column[colId] + str(row)] = items
+         colId += 1
+         col += 1
     else:
       item = ""
 
