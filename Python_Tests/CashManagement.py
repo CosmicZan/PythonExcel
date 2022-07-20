@@ -4,7 +4,7 @@ import datetime
 from datetime import datetime, date, timedelta
 
 def TxtExl():
-    #TxtExl_StmtHdrs()
+    TxtExl_StmtHdrs()
     TxtExl_StmtLns()
     TxtExl_StmtBls()
 
@@ -81,16 +81,15 @@ def TxtExl_StmtHdrs():
     #Caso Tag 60F
     elif(item.startswith(":60F:")):
       row = 4
-      col = 6
+      col = 5
       tag = item
       index = [5, 6, 12, 15, 30]
       parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
-      moneda = parts[2]
-      for items in enumerate(parts):
-          while ws.cell(row, col).value:
-            row+=1
-          ws["E" + str(row)] = moneda
-          col += 1
+      #for items in enumerate(parts):
+      while ws.cell(row, col).value:
+        row+=1
+      ws[column[4] + str(row)] = parts[2]
+          #col += 1
     #Caso Tag 61 // Arreglar el salto de Línea
     elif(item.startswith(":61:")):
       row = 1
@@ -106,15 +105,15 @@ def TxtExl_StmtHdrs():
          colId += 1
          col += 1
     #Caso Tag 86
-    elif(item.startswith(":86:")):
-      row = 1
-      col = 17
-      tag = item.split(":86:", 1)
-      for items in enumerate(tag):
-          while ws.cell(row, col).value:
-            row+=1
-          ws["Q" + str(row)] = items[1]
-          col += 1
+    #elif(item.startswith(":86:")):
+    #  row = 1
+    #  col = 17
+    #  tag = item.split(":86:", 1)
+    #  for items in enumerate(tag):
+    #      while ws.cell(row, col).value:
+    #        row+=1
+    #      ws["Q" + str(row)] = items[1]
+    #      col += 1
     #Caso Tag 62M
     elif(item.startswith(":62M:")):
       row = 1
@@ -132,7 +131,7 @@ def TxtExl_StmtHdrs():
     else:
       item = ""
 
-  print("Excel Updated")
+  print("Statement Headers Updated")
   
   wb.save(file_path)
 #Statement  Balance Sheet
@@ -188,6 +187,7 @@ def TxtExl_StmtBls():
           while ws.cell(row, col).value:
             row+=1
           ws[column[1] + str(row)] = items[1]
+          ws[column[5] + str(row)] = "CRDT"
           col += 1
     #Caso Tag 28C
     elif(item.startswith(":28C:")):
@@ -205,16 +205,15 @@ def TxtExl_StmtBls():
     #Caso Tag 60F
     elif(item.startswith(":60F:")):
       row = 4
-      col = 6
+      col = 5
       tag = item
       index = [5, 6, 12, 15, 30]
       parts = [tag[i:j] for i,j in zip(index, index[1:] + [None])]
-      moneda = parts[2]
-      for items in enumerate(parts):
-          while ws.cell(row, col).value:
-            row+=1
-          ws[column[4] + str(row)] = moneda
-          col += 1
+      #for items in enumerate(parts):
+      while ws.cell(row, col).value:
+        row+=1
+      ws[column[4] + str(row)] = parts[2]
+      col += 1
     #Caso Tag 61 // Arreglar el salto de Línea
     elif(item.startswith(":61:")):
       row = 1
@@ -230,15 +229,15 @@ def TxtExl_StmtBls():
          colId += 1
          col += 1
     #Caso Tag 86
-    elif(item.startswith(":86:")):
-      row = 1
-      col = 17
-      tag = item.split(":86:", 1)
-      for items in enumerate(tag):
-          while ws.cell(row, col).value:
-            row+=1
-          ws["Q" + str(row)] = items[1]
-          col += 1
+    #elif(item.startswith(":86:")):
+    #  row = 1
+    #  col = 17
+    #  tag = item.split(":86:", 1)
+    #  for items in enumerate(tag):
+    #      while ws.cell(row, col).value:
+    #        row+=1
+    #      ws["Q" + str(row)] = items[1]
+    #      col += 1
     #Caso Tag 62M
     elif(item.startswith(":62M:")):
       row = 1
@@ -256,7 +255,7 @@ def TxtExl_StmtBls():
     else:
       item = ""
 
-  print("Excel Updated")
+  print("Statement Balance Updated")
   
   wb.save(file_path)
 #Statement Lines Sheet
@@ -303,7 +302,7 @@ def TxtExl_StmtLns():
           ws[column[colId] + str(row)] = items
           colId += 1
           col += 1
-    #Caso Tag 25 / #Account & Line Number
+    #Caso Tag 25 / #Account & Line Number & CRDT
     elif(item.startswith(":25:")):
       row = 4
       col = 2
@@ -315,9 +314,7 @@ def TxtExl_StmtLns():
         ln_number += 1
       ws[column[1] + str(row)] = tag[1]
       ws[column[2] + str(row)] = ln_number
-      col += 1
-      
-        
+      col += 1  
     #Caso Tag 28C
     elif(item.startswith(":28C:")):
       row = 1
@@ -360,13 +357,13 @@ def TxtExl_StmtLns():
          col += 1
     #Caso Tag 86
     elif(item.startswith(":86:")):
-      row = 1
-      col = 17
+      row = 4
+      col = 5
       tag = item.split(":86:", 1)
       for items in enumerate(tag):
           while ws.cell(row, col).value:
             row+=1
-          ws["Q" + str(row)] = items[1]
+          ws[column[4] + str(row)] = items[1]
           col += 1
     #Caso Tag 62M
     elif(item.startswith(":62M:")):
@@ -385,7 +382,7 @@ def TxtExl_StmtLns():
     else:
       item = ""
 
-  print("Excel Updated")
+  print("Statement Lines Updated")
   
   wb.save(file_path)
 
